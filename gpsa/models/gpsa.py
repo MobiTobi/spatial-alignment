@@ -123,10 +123,12 @@ class GPSA(nn.Module):
         # self.data_kernel_variance = torch.tensor(0.).float()
 
         if mean_function == "identity_fixed":
-            self.mean_slopes = (
+            self.mean_slopes = nn.Parameter(
                 torch.eye(self.n_spatial_dims).unsqueeze(0).repeat(self.n_views, 1, 1)
             )
-            self.mean_intercepts = torch.zeros([self.n_views, self.n_spatial_dims])
+            self.mean_intercepts = nn.Parameter(
+                torch.zeros([self.n_views, self.n_spatial_dims])
+            )
         elif mean_function == "identity_initialized":
             self.mean_slopes = nn.Parameter(
                 torch.randn([self.n_views, self.n_spatial_dims, self.n_spatial_dims])
